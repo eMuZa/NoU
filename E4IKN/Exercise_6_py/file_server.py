@@ -17,7 +17,7 @@ def main(argv):
         connectionSocket, addr = serverSocket.accept()
 
         sentence = connectionSocket.recv(1024).decode()
-        sendFile(data,check_File_Exists(data),connectionSocket)
+        sendFile(sentence,check_File_Exists(sentence),connectionSocket)
 
         connectionSocket.close()
 
