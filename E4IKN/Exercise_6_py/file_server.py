@@ -2,12 +2,11 @@ import sys
 import socket as s
 from lib import Lib
 
-HOST = ''
+HOST = '127.0.0.1'
 PORT = 9000
-BUFSIZE = 1000
+BUFSIZE = 1024
 
 def main(argv):
-
 
     serverSocket = s.socket(s.AF_INET,s.SOCK_STREAM)
     serverSocket.bind((HOST,PORT))
@@ -15,25 +14,27 @@ def main(argv):
     print 'The server is ready to receive'
     while True:
         connectionSocket, addr = serverSocket.accept()
+        print("client connected: " + str(addr))
+        filePath = connectionSocket.recv(BUFSIZE).decode()
 
-        sentence = connectionSocket.recv(1024).decode()
+
         sendFile(data,check_File_Exists(data),connectionSocket)
-
         connectionSocket.close()
+        print("client disconnected: " + str(addr))
 
 def sendFile(fileName,  fileSize,  conn):
-    if fileName:
-        conn.send(fileSize)
-        f = open(fileName,'rb')
-        l = f.read(BUFSIZE)
-        while(l):
-            conn.send(l)
-            l = f.read(BUFSIZE)
-        f.close()
-        print 'File transfer complete'
-        conn.send('File Transfer complete on the client')
+    if os.path.isfile(fileName):
+        conn.send(str(os.path.getsize(fileName)))
+        usrResp = conn.recv(BUFSIZE)
+        if usrResp == "OK":
+            with open(fileName, 'rb') as f:
+                bytestoSend = f.read(BUFSIZE)
+                conn.send(bytestoSend)
+                while bytestoSend != "":
+                    bytestoSend = f.read(BUFSIZE)
+                    conn.send(bytestoSend)
     else:
-        conn.send('No such file')
+        conn.send("ERR")
 
 if __name__ == "__main__":
    main(sys.argv[1:])

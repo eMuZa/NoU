@@ -4,22 +4,41 @@ from lib import Lib
 
 import socket
 
-PORT = 9000
-BUFSIZE = 1000
+PORT = 9000 #Port til transmisions
+BUFSIZE = 1024 # Stoerrelse af sendt data buffer
+serverName = '127.0.0.1' # IP
 
 def main(argv):
-    serverName = '127.0.0.1'
     clientSocket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     clientSocket.connect((serverName, PORT))
-    sentence = raw_input('Input lowercase sentence:')
-    clientSocket.send(sentence.encode())
-    modifiedSentence = clientSocket.recv(1024)
-    print('From server:',modifiedSentence.decode())
+    filePath = raw_input('Your Filesname : ')
 
-    clientSocket.close()
+    if filePath != 'c':
+        clientSocket.send(filePath)
+        receiveFile(filePath,clientSocket)
+
+    socketClient.close()
+
+
 def receiveFile(fileName,  conn):
-	# TO DO Your Code
-	print('jajaja')
+    data = conn.recv(BUFSIZE)
+    if data[:3] != "ERR":
+        fileSize = int(data)
+        message = raw_input("File does exist, filesize:" + str(fileSize) + " Bytes: download press [y or n]: ")
+        if message == "y":
+            conn.send("OK")
+            f = open("new " + fileName, 'wb')
+            data = conn.recv(BUFSIZE)
+            totalRecvLength = len(data)
+            f.write(data)
+            while totalRecvLength < fileSize:
+                data = conn.recv(BUFSIZE)
+                totalRecvLength += len(data)
+                f.write(data)
+                print("{0:.2f}".format((float(totalRecvLength)/float(fileSize))*100)+"% Done")
+                print("Download is finished")
+    else:
+        print("File does not exit")
 
 if __name__ == "__main__":
    main(sys.argv[1:])
