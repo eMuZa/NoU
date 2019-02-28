@@ -1,12 +1,13 @@
 import sys
 from socket import *
-from lib import Lib
+import string
+import os
 
 import socket
 
 PORT = 9000 #Port til transmisions
 BUFSIZE = 1024 # Stoerrelse af sendt data buffer
-serverName = '127.0.0.1' # IP
+serverName = '10.0.0.2' # IP
 
 def main(argv):
     clientSocket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -17,7 +18,7 @@ def main(argv):
         clientSocket.send(filePath)
         receiveFile(filePath,clientSocket)
 
-    socketClient.close()
+    clientSocket.close()
 
 
 def receiveFile(fileName,  conn):
@@ -27,7 +28,9 @@ def receiveFile(fileName,  conn):
         message = raw_input("File does exist, filesize:" + str(fileSize) + " Bytes: download press [y or n]: ")
         if message == "y":
             conn.send("OK")
-            f = open("new " + fileName, 'wb')
+
+            f = open("new " + fileName[fileName.rfind('/', 0,  len(fileName))+1:], 'wb')
+
             data = conn.recv(BUFSIZE)
             totalRecvLength = len(data)
             f.write(data)
