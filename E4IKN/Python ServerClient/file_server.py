@@ -17,6 +17,11 @@ def main(argv):
         print("client connected: " + str(addr))
         filePath = connectionSocket.recv(BUFSIZE).decode()
 
+<<<<<<< HEAD
+=======
+        sentence = connectionSocket.recv(1024).decode()
+        sendFile(sentence,check_File_Exists(sentence),connectionSocket)
+>>>>>>> caf51db3d7f34abf8003c63e2a64c577317de2c3
 
         sendFile(data,check_File_Exists(data),connectionSocket)
         connectionSocket.close()
