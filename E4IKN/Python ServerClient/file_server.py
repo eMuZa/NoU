@@ -1,8 +1,8 @@
 import sys
 import socket as s
-from lib import Lib
+import os
 
-HOST = '127.0.0.1'
+HOST = '10.0.0.2'
 PORT = 9000
 BUFSIZE = 1024
 
@@ -17,13 +17,7 @@ def main(argv):
         print("client connected: " + str(addr))
         filePath = connectionSocket.recv(BUFSIZE).decode()
 
-<<<<<<< HEAD
-=======
-        sentence = connectionSocket.recv(1024).decode()
-        sendFile(sentence,check_File_Exists(sentence),connectionSocket)
->>>>>>> caf51db3d7f34abf8003c63e2a64c577317de2c3
-
-        sendFile(data,check_File_Exists(data),connectionSocket)
+        sendFile(filePath,BUFSIZE,connectionSocket)
         connectionSocket.close()
         print("client disconnected: " + str(addr))
 
