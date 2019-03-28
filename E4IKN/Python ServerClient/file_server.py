@@ -2,7 +2,7 @@ import sys
 import socket as s
 import os
 
-HOST = '10.0.0.2'
+HOST = '127.0.0.1'
 PORT = 9000
 BUFSIZE = 1024
 
