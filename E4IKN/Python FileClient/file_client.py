@@ -7,7 +7,7 @@ import socket
 
 PORT = 9000 #Port til transmisions
 BUFSIZE = 1024 # Stoerrelse af sendt data buffer
-serverName = '10.0.0.2' # IP
+serverName = '127.0.0.1' # IP
 
 def main(argv):
     clientSocket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)

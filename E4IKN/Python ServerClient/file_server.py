@@ -2,7 +2,7 @@ import sys
 import socket as s
 import os
 
-HOST = '10.0.0.2'
+HOST = '127.0.0.1'
 PORT = 9000
 BUFSIZE = 1024
 
@@ -11,7 +11,7 @@ def main(argv):
     serverSocket = s.socket(s.AF_INET,s.SOCK_STREAM)
     serverSocket.bind((HOST,PORT))
     serverSocket.listen(1)
-    print 'The server is ready to receive'
+    print ('The server is ready to receive')
     while True:
         connectionSocket, addr = serverSocket.accept()
         print("client connected: " + str(addr))
@@ -21,7 +21,7 @@ def main(argv):
         connectionSocket.close()
         print("client disconnected: " + str(addr))
 
-def sendFile(fileName,  fileSize,  conn):
+def sendFile(fileName,  fileSize,  conn): 
     if os.path.isfile(fileName):
         conn.send(str(os.path.getsize(fileName)))
         usrResp = conn.recv(BUFSIZE)
@@ -34,6 +34,5 @@ def sendFile(fileName,  fileSize,  conn):
                     conn.send(bytestoSend)
     else:
         conn.send("ERR")
-
 if __name__ == "__main__":
    main(sys.argv[1:])

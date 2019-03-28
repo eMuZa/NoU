@@ -5,7 +5,7 @@ import os
 fileName = "/proc/uptime"
 fileName2 = "/proc/loadavg"
 
-HOST = '10.0.0.2'
+HOST = '127.0.0.1'
 PORT = 9000
 BUFSIZE = 1024
 

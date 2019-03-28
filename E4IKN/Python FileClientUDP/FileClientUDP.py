@@ -5,7 +5,8 @@ import os
 
 PORT = 9000 #Port til transmisions
 BUFSIZE = 1024 # Stoerrelse af sendt data buffer
-serverAddressPort = ("10.0.0.2", PORT)
+serverAddressPort = ("127.0.0.1", PORT)
+
 
 
 def main(argv):
@@ -13,7 +14,7 @@ def main(argv):
     UDPClientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     #Getting Raw Input
-    msgToSend = raw_input('Your Message: ')
+    msgToSend = input('Your Message: ')
 
     #Error Handle
     if not((msgToSend == "U") or (msgToSend == "u") or (msgToSend == "L") or (msgToSend == "l")):
@@ -31,11 +32,10 @@ def main(argv):
     msgFromServer = UDPClientSocket.recvfrom(BUFSIZE)
 
     #Formatting Message
-    msg = "Message from Server {}".format(msgFromServer[0])
+    msg = "Message from Server {}".format(str(msgFromServer[0], "utf-8"))
 
     #Printing Message
     print(msg)
-
 
 if __name__ == "__main__":
     main(sys.argv[1:])
