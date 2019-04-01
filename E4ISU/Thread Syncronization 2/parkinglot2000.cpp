@@ -129,7 +129,7 @@ void closeGarEntryDoor(void)
 void closeGarExitDoor(void)
 {
     isExitDoorOpen = false;
-    std::cout<<"Garage Exit Door is closed" << std::endl;
+    std::cout<<"Garage Exit Door is close" << std::endl;
 }
 
 int main()
