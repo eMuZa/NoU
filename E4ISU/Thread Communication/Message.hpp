@@ -4,7 +4,7 @@
     class Message
     {
     public:
-        virtual ~Message(){};
+        virtual ~Message();
         
     };
 #endif /* Message */

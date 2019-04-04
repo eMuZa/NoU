@@ -1,5 +1,5 @@
 #---------------Variabler---------------------
-SOURCES=main.cpp MsgQueue.cpp Message.hpp
+SOURCES=main.cpp MsgQueue.cpp Message.cpp
 OBJECTS=$(addprefix $(BUILD_DIR)/,$(SOURCES:.cpp=.o))
 DEPS=$(addprefix $(BUILD_DIR)/,$(SOURCES:.cpp=.d))
 EXE=$(BUILD_BIN)/prog
