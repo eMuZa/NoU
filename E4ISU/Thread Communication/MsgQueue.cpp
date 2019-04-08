@@ -1,4 +1,6 @@
     #include "MsgQueue.hpp"
+    #include "map"
+
     
     MsgQueue::MsgQueue(unsigned long maxSize)
     {
@@ -7,18 +9,16 @@
         sendToQueue = PTHREAD_COND_INITIALIZER;
         maxSize_ = maxSize;
     }
-    void MsgQueue::send(unsigned long id, Message* msg = nullptr)
+    void MsgQueue::send(unsigned long id, Message* msg)
     {
         pthread_mutex_lock(&lock);
-
-        container_.emplace(msg, id);
         
         while(container_.size()>=maxSize_)
         {
             pthread_cond_wait(&sendToQueue, &lock);
         }
 
-        container_.push(Item);
+        container_.emplace(Item{id, msg});
         pthread_cond_signal(&takeFromQueue);
         
         pthread_mutex_unlock(&lock);
@@ -27,21 +27,21 @@
     {
         pthread_mutex_lock(&lock);
 
-        while(cotainer_.empty())
+        while(container_.empty())
         {
-            pthreadd_cond_wait(&takeFromQueue, &lock);
+            pthread_cond_wait(&takeFromQueue, &lock);
         }
 
-        Item.msg_ = container_.first();
-        Item.id_ = container_.second();
+        unsigned long int idIntern = container_.front().id_;
+        Message* msgIntern = container_.front().msg_;
 
-        id = Item.id_;
+       
 
         container_.pop();
         pthread_cond_signal(&sendToQueue);
         pthread_mutex_unlock(&lock);
 
-        return Item.msg_;
+        return msgIntern;
     }
     MsgQueue::~MsgQueue()
     {

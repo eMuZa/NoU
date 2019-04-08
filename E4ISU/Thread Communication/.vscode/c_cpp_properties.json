@@ -3,7 +3,15 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/usr/bin/",
+                "/usr/lib/x86_64-linux-gnu/",
+                "/usr/local/include",
+                "/usr/include",
+                "C:/Users/MIKKEL/source/repos/ConsoleApplication1/packages/pthreads.2.9.1.4",
+                "C:/Users/MIKKEL/source/repos/ConsoleApplication1/packages/pthreads.2.9.1.4/build/native/include",
+                "C:/Users/MIKKEL/source/repos/ConsoleApplication1/packages/",
+                "C:/Users/MIKKEL/source/repos/ConsoleApplication1/packages/unistd"
             ],
             "defines": [
                 "_DEBUG",

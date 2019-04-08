@@ -1,9 +1,10 @@
 #include <iostream>
 #include "MsgQueue.hpp"
 #include "Message.hpp"
+#include <unistd.h>
 
-enum {RECEIVE_HANDLED}
-MsgQueue recMsg;
+enum {POINT3DDef};
+MsgQueue recMsg(20);
 
 #define numOfThreads 2
 
@@ -17,33 +18,43 @@ struct Point3D : public Message
 void ReceieveHandler(unsigned id, Message* msg)
 {
     switch(id){
-        case RECEIVE_HANDLED:
-        
+        case POINT3DDef:
+        Point3D * point = reinterpret_cast<Point3D*>(msg);
+        std::cout << std::endl << "X: " << point->x << std::endl << "Y: " << point->y << std::endl << "Z: " << point->z << std::endl;
         break;    
     }
     
 }
 
-void *reciever(void* NULL)
+void *reciever(void*)
 {
     unsigned long id;
     while(1)
     {
-        Message* msg = recMsg.recieve(id);
+        Message* msg = recMsg.receive(id);
         ReceieveHandler(id, msg);
         delete(msg);
     }
 }
 
-void *sender(void* NULL)
+void *sender(void*)
 {
-    int i = 1;
-    Point3D *point = new Point3D;
+    int i = 0;
+    while(1)
+    {
+        Point3D *point = new Point3D;
 
-    point->x = 1+i;
-    point->y = 2+i;
-    point->z = 3+i;
-    i++;
+
+        point->x = 1+i;
+        point->y = 2+i;
+        point->z = 3+i;
+        i++;
+    
+        recMsg.send(POINT3DDef,point);
+
+        sleep(1);
+    }
+
 }
 
 
